@@ -8,7 +8,7 @@ import java.util.TimerTask;
 public class BotManager {
 
     private static BotManager instance;
-    private static int TASK_DURATION = 120;
+    private static int TASK_DURATION = 60*60;
 
     private Timer timer = new Timer();
     private TimerTask botTask;
