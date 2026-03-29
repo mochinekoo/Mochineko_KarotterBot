@@ -39,5 +39,6 @@ public class BotManager {
         if (botTask == null) return;
         botTask.cancel();
         botTask = null;
+        timer.cancel();
     }
 }
