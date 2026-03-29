@@ -12,6 +12,14 @@ public class Main {
     public static final Logger BOT_LOGGER = Logger.getLogger("KarotterBot");
 
     public static void main(String[] args) {
+
+//        for (int n = 0; n < 100; n++) {
+//            String text = UnBillieManager.getRandomText();
+//            if (text.contains("アンビリバボー")) {
+//                System.out.println(text);
+//            }
+//        }
+
         BotManager botManager = BotManager.getInstance();
         initialize();
 
