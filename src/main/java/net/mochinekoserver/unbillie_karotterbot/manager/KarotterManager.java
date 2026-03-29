@@ -1,5 +1,7 @@
 package net.mochinekoserver.unbillie_karotterbot.manager;
 
+import net.mochinekoserver.unbillie_karotterbot.Main;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.URL;
@@ -13,18 +15,18 @@ public class KarotterManager {
     public static String sendKarotter(String message) {
         try {
             URL url = new URL(API_POSTURL);
-            HttpsURLConnection con = (HttpsURLConnection)url.openConnection();
-            con.setRequestMethod("POST");
-            con.setDoOutput(true);
-            con.setDoInput(true);
-            con.addRequestProperty("Authorization", "Bearer " + API_KEY);
-            con.addRequestProperty("Content-Type", "application/json");
-            con.connect();
-            OutputStreamWriter os = new OutputStreamWriter(con.getOutputStream());
+            HttpsURLConnection connection = (HttpsURLConnection)url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            connection.addRequestProperty("Authorization", "Bearer " + API_KEY);
+            connection.addRequestProperty("Content-Type", "application/json");
+            connection.connect();
+            OutputStreamWriter os = new OutputStreamWriter(connection.getOutputStream());
             os.write("{\"content\": \"" + message + "\",\"visibility\": \"PUBLIC\", \"replyRestriction\": \"EVERYONE\"}");
             os.close();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream(), StandardCharsets.UTF_8));
+            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder content = new StringBuilder();
 
             String inputLine;
@@ -33,7 +35,9 @@ public class KarotterManager {
             }
 
             in.close();
-            con.disconnect();
+            connection.disconnect();
+            Main.BOT_LOGGER.info("Karotterに正常に送信されました。");
+            Main.BOT_LOGGER.info("status:" + connection.getResponseCode() + "result:" + content.toString());
             return content.toString();
         } catch (IOException e) {
             e.printStackTrace();
